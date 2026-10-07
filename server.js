@@ -170,16 +170,29 @@ app.get(
         req.params.username
       );
 
-      const code =
-        req.params.code.trim().toUpperCase();
+      const code = decodeURIComponent(
+        req.params.code
+      ).trim().toUpperCase();
 
-      const bio =
-        (profile.bio || "").toUpperCase();
+      const bio = String(
+        profile.bio || ""
+      ).trim().toUpperCase();
+
+      const verified =
+        code.length > 0 && bio.includes(code);
 
       res.json({
-        verified: bio.includes(code),
+        verified,
         verificationCode: code,
-        ...profile
+        username: profile.username,
+        nickname: profile.nickname,
+        bio: profile.bio,
+        followers: profile.followers,
+        following: profile.following,
+        likes: profile.likes,
+        videos: profile.videos,
+        privateAccount: profile.privateAccount,
+        profileUrl: profile.profileUrl
       });
     } catch (error) {
       res.status(502).json({
