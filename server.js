@@ -128,6 +128,8 @@ async function getTikTokProfile(username) {
     `?isUniqueId=true&isSecured=true`;
 
   const source = await fetchTikTokPage(url);
+   console.log("TikTok page length:", source.length);
+console.log("TikTok universal data found:", !!getUniversalData(source));
 
   const universalData =
     getUniversalData(source);
